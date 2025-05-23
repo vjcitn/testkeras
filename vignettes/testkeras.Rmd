@@ -1,0 +1,66 @@
+---
+title: "testkeras -- do keras 3 and python 3.12 work with basilisk?"
+shorttitle: "testing basilisk and session_info in python/reticulate"
+author: "Vincent J. Carey, stvjc at channing.harvard.edu"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{testkeras -- do keras 3 and python 3.12 work with basilisk?}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::html_document:
+    highlight: pygments
+    number_sections: yes
+    theme: united
+    toc: yes
+---
+
+```{r setup,message=FALSE}
+library(testkeras)
+```
+
+# Introduction
+
+This package defines two functions.
+
+- lksk shows that one can obtain the "version signature" of
+a collection of python packages, using a basilisk environment.
+
+The environment is
+```{r lkenv}
+testkeras:::bsklenv
+```
+
+lksk is
+```{r lklk1}
+lksk
+```
+
+- lkker demonstrates that we can use keras3 through basilisk.
+But it cannot obtain the signature of versions of python modules
+because of a problem using `pybind11_abseil`.
+
+```{r lklk2}
+lkker
+```
+
+# Modules needed with scikit-learn
+
+```{r lklk3}
+lksk()
+```
+
+# Using keras
+
+```{r lklk4}
+kk = lkker()
+names(kk) # good
+# not working as expected:
+reticulate::py_capture_output(reticulate::py_help(kk$keras))
+```
+
+# Session Info
+
+```{r lksess}
+sessionInfo()
+```
